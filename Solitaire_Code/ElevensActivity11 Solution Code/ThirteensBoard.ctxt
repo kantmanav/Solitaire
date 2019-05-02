@@ -1,0 +1,18 @@
+#BlueJ class context
+comment0.target=ThirteensBoard
+comment0.text=\n\ The\ ThirteensBoard\ class\ represents\ the\ board\ in\ a\ game\ of\ Thirteens.\n
+comment1.params=
+comment1.target=ThirteensBoard()
+comment1.text=\n\ Creates\ a\ new\ <code>ThirteensBoard</code>\ instance.\n
+comment2.params=selectedCards
+comment2.target=boolean\ isLegal(java.util.List)
+comment2.text=\n\ Determines\ if\ the\ selected\ cards\ form\ a\ valid\ group\ for\ removal.\n\ In\ Thirteens,\ the\ legal\ groups\ are\ (1)\ a\ pair\ of\ non-face\ cards\n\ whose\ values\ add\ to\ 13,\ and\ (2)\ a\ king.\n\ @param\ selectedCards\ the\ list\ of\ the\ indices\ of\ the\ selected\ cards.\n\ @return\ true\ if\ the\ selected\ cards\ form\ a\ valid\ group\ for\ removal;\n\ \ \ \ \ \ \ \ \ false\ otherwise.\n
+comment3.params=
+comment3.target=boolean\ anotherPlayIsPossible()
+comment3.text=\n\ Determine\ if\ there\ are\ any\ legal\ plays\ left\ on\ the\ board.\n\ In\ Thirteens,\ there\ is\ a\ legal\ play\ if\ the\ board\ contains\n\ (1)\ a\ pair\ of\ non-face\ cards\ whose\ values\ add\ to\ 13,\ or\ (2)\ a\ king.\n\ @return\ true\ if\ there\ is\ a\ legal\ play\ left\ on\ the\ board;\n\ \ \ \ \ \ \ \ \ false\ otherwise.\n
+comment4.params=selectedCards
+comment4.target=java.util.List\ findTripSum21(java.util.List)
+comment4.text=\n\ Look\ for\ an\ 13-pair\ in\ the\ selected\ cards.\n\ @param\ selectedCards\ selects\ a\ subset\ of\ this\ board.\ \ It\ is\ list\n\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ of\ indexes\ into\ this\ board\ that\ are\ searched\n\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ to\ find\ an\ 13-pair.\n\ @return\ a\ list\ of\ the\ indexes\ of\ an\ 13-pair,\ if\ an\ 13-pair\ was\ found;\n\ \ \ \ \ \ \ \ \ an\ empty\ list,\ if\ an\ 13-pair\ was\ not\ found.\n
+comment5.params=selectedCards
+comment5.target=int\ findTripSum(java.util.List)
+numComments=6
