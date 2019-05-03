@@ -135,7 +135,7 @@ public class CardGameGUI extends JFrame implements ActionListener {
      * Draw the display (cards and messages).
      */
     public void repaint() {
-        if (turns == 0) {
+        if (turns == 1) {
             for (int k = 0; k < board.size(); k++) {
                 board.cardAt(k).setFace(false);
             } 
@@ -246,7 +246,7 @@ public class CardGameGUI extends JFrame implements ActionListener {
                                   250, 30);
         panel.add(turnsMsg);
         
-        turns = 0;
+        turns = 1;
 
         if (!board.anotherPlayIsPossible()) {
             signalLoss();
@@ -333,7 +333,7 @@ public class CardGameGUI extends JFrame implements ActionListener {
             
         } else if (e.getSource().equals(restartButton)) {
             board.newGame();
-            turns = 0;
+            turns = 1;
             getRootPane().setDefaultButton(selectButton);
             winMsg.setVisible(false);
             lossMsg.setVisible(false);
