@@ -9,7 +9,7 @@ public class ThirteensBoard extends Board {
     /**
      * The size (number of cards) on the board.
      */
-    private static final int BOARD_SIZE = 10;
+    private static final int BOARD_SIZE = 52;
 
     /**
      * The ranks of the cards for this game to be sent to the deck.
@@ -53,7 +53,10 @@ public class ThirteensBoard extends Board {
     @Override
     public boolean isLegal(List<Integer> selectedCards) {
         if (selectedCards.size() == 3) {
-            return true;
+            if(super.findTripSum21(selectedCards).size() > 0) {
+                return true;
+            }
+            return false;
         }
         return false;
     }
@@ -69,7 +72,7 @@ public class ThirteensBoard extends Board {
     @Override
     public boolean anotherPlayIsPossible() {
         List<Integer> cIndexes = cardIndexes();
-        return findTripSum21(cIndexes).size() > 0;
+        return super.findTripSum21(cIndexes).size() > 0;
     }
     
     /**
@@ -80,6 +83,7 @@ public class ThirteensBoard extends Board {
      * @return a list of the indexes of an 13-pair, if an 13-pair was found;
      *         an empty list, if an 13-pair was not found.
      */
+    /*
     private List<Integer> findTripSum21(List<Integer> selectedCards) {
         List<Integer> foundIndexes = new ArrayList<Integer>();
         for (int sk1 = 0; sk1 < selectedCards.size(); sk1++) {
@@ -99,6 +103,7 @@ public class ThirteensBoard extends Board {
         }
         return foundIndexes;
     }
+    */
     /*
     private int findTripSum(List<Integer> selectedCards) {
         List<Integer> foundIndexes = new ArrayList<Integer>();

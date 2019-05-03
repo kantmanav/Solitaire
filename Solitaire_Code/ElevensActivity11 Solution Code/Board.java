@@ -128,6 +128,35 @@ public abstract class Board {
 		return selected;
 	}
 	
+	
+	/**
+         * Look for an 13-pair in the selected cards.
+         * @param selectedCards selects a subset of this board.  It is list
+         *                      of indexes into this board that are searched
+         *                      to find an 13-pair.
+         * @return a list of the indexes of an 13-pair, if an 13-pair was found;
+         *         an empty list, if an 13-pair was not found.
+         */
+        public List<Integer> findTripSum21(List<Integer> selectedCards) {
+            List<Integer> foundIndexes = new ArrayList<Integer>();
+            for (int sk1 = 0; sk1 < selectedCards.size(); sk1++) {
+                int k1 = selectedCards.get(sk1).intValue();
+                for (int sk2 = sk1 + 1; sk2 < selectedCards.size(); sk2++) {
+                    int k2 = selectedCards.get(sk2).intValue();
+                    for (int sk3 = sk2 + 1; sk3 < selectedCards.size(); sk3++ ) {
+                        int k3 = selectedCards.get(sk3).intValue();
+                        if (cardAt(k1).pointValue() + cardAt(k2).pointValue() + cardAt(k3).pointValue() == 21) {
+                            foundIndexes.add(new Integer(k1));
+                            foundIndexes.add(new Integer(k2));
+                            foundIndexes.add(new Integer(k3));
+                            return foundIndexes;
+                        }
+                    }
+                }
+            }
+            return foundIndexes;
+        }
+
     	public int findTripSum(List<Integer> selectedCards) {
             List<Integer> foundIndexes = new ArrayList<Integer>();
             for (int sk1 = 0; sk1 < selectedCards.size(); sk1++) {
@@ -142,6 +171,8 @@ public abstract class Board {
             }
             return 0;
         }
+        
+        
 
 	/**
 	 * Generates and returns a string representation of this board.
