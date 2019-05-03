@@ -20,6 +20,8 @@ public class Card {
 	 */
 	private int pointValue;
 	
+	private boolean faceUp;
+	
         /**
 	 * Creates a new <code>Card</code> instance.
 	 *
@@ -35,6 +37,7 @@ public class Card {
 		rank = cardRank;
 		suit = cardSuit;
 		pointValue = cardPointValue;
+		faceUp = false;
 	}
 	/**
 	 * Accesses this <code>Card's</code> suit.
@@ -50,6 +53,14 @@ public class Card {
 	public String rank() {
 		return rank;
 	}
+	
+	public boolean faceUp() {
+	    return faceUp;
+	}
+	public void setFace(boolean faceUp) {
+	    this.faceUp = faceUp;
+	}
+	
         /**
 	 * Accesses this <code>Card's</code> point value.
 	 * @return this <code>Card's</code> point value.

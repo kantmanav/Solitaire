@@ -60,6 +60,15 @@ public class ThirteensBoard extends Board {
         }
         return false;
     }
+    
+    public boolean canPlay(List<Integer> selectedCards) {
+        if (selectedCards.size() == 3) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
 
     /**
      * Determine if there are any legal plays left on the board.

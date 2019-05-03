@@ -16,6 +16,7 @@ import javax.swing.ImageIcon;
 import java.net.URL;
 import java.util.List;
 import java.util.ArrayList;
+import java.lang.Math.*;
 
 /**
  * This class provides a GUI for solitaire games related to Elevens.
@@ -59,8 +60,8 @@ public class CardGameGUI extends JFrame implements ActionListener {
 
     /** The main panel containing the game components. */
     private JPanel panel;
-    /** The Replace button. */
-    private JButton replaceButton;
+    /** The Select button. */
+    private JButton selectButton;
     /** The Restart button. */
     private JButton restartButton;
     /** The "number of undealt cards remain" message. */
@@ -134,8 +135,14 @@ public class CardGameGUI extends JFrame implements ActionListener {
      * Draw the display (cards and messages).
      */
     public void repaint() {
+        if (turns == 0) {
+            for (int k = 0; k < board.size(); k++) {
+                board.cardAt(k).setFace(false);
+            } 
+        }
+        
         for (int k = 0; k < board.size(); k++) {
-            String cardImageFileName =
+            String cardImageFileName = 
                 imageFileName(board.cardAt(k), selections[k]);
             URL imageURL = getClass().getResource(cardImageFileName);
             if (imageURL != null) {
@@ -178,7 +185,7 @@ public class CardGameGUI extends JFrame implements ActionListener {
             int titleLength = classNameLen - boardLen;
             setTitle(className.substring(0, titleLength));
         }
-
+        
         // Calculate number of rows of cards (5 cards per row)
         // and adjust JFrame height if necessary
         int numCardRows = (board.size() + 4) / 5;
@@ -186,7 +193,7 @@ public class CardGameGUI extends JFrame implements ActionListener {
         if (numCardRows > 2) {
             height += (numCardRows - 2) * LAYOUT_HEIGHT_INC;
         }
-
+        
         this.setSize(new Dimension(DEFAULT_WIDTH, height));
         panel.setLayout(null);
         panel.setPreferredSize(
@@ -200,11 +207,11 @@ public class CardGameGUI extends JFrame implements ActionListener {
             displayCards[k].addMouseListener(new MyMouseListener());
             selections[k] = false;
         }
-        replaceButton = new JButton();
-        replaceButton.setText("Replace");
-        panel.add(replaceButton);
-        replaceButton.setBounds(BUTTON_LEFT, BUTTON_TOP, 100, 30);
-        replaceButton.addActionListener(this);
+        selectButton = new JButton();
+        selectButton.setText("Select");
+        panel.add(selectButton);
+        selectButton.setBounds(BUTTON_LEFT, BUTTON_TOP, 100, 30);
+        selectButton.addActionListener(this);
 
         restartButton = new JButton();
         restartButton.setText("Restart");
@@ -247,7 +254,7 @@ public class CardGameGUI extends JFrame implements ActionListener {
 
         pack();
         getContentPane().add(panel);
-        getRootPane().setDefaultButton(replaceButton);
+        getRootPane().setDefaultButton(selectButton);
         panel.setVisible(true);
     }
 
@@ -271,15 +278,18 @@ public class CardGameGUI extends JFrame implements ActionListener {
      */
     private String imageFileName(Card c, boolean isSelected) {
         String str = "cards/";
-        if (c == null) {
+        if (!c.faceUp()) {
             return "cards/back1.GIF";
         }
-        str += c.rank() + c.suit();
-        if (isSelected) {
-            str += "S";
+        
+        else {
+            str += c.rank() + c.suit();
+            if (isSelected) {
+                str += "S";
+            }
+            str += ".GIF";
+            return str;
         }
-        str += ".GIF";
-        return str;
     }
 
     /**
@@ -288,7 +298,7 @@ public class CardGameGUI extends JFrame implements ActionListener {
      * @param e the button click action event
      */
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource().equals(replaceButton)) {
+        if (e.getSource().equals(selectButton)) {
             // Gather all the selected cards.
             List<Integer> selection = new ArrayList<Integer>();
             for (int k = 0; k < board.size(); k++) {
@@ -297,7 +307,7 @@ public class CardGameGUI extends JFrame implements ActionListener {
                 }
             }
             // Make sure that the selected cards represent a legal replacement.
-            if (!board.isLegal(selection)) {
+            if (!board.canPlay(selection)) {
                 signalError();
                 return;
             }
@@ -306,16 +316,25 @@ public class CardGameGUI extends JFrame implements ActionListener {
             }
             // Do the replace.
             
-            turns++;
-            sum = board.findTripSum(selection);
-            board.replaceSelectedCards(selection);
-            signalWin();
-            repaint();
-            //statusMsg.setText(board.findTripSum(selection));
+            if (board.isLegal(selection)) {
+                turns++;
+                sum = board.findTripSum(selection);
+                board.replaceSelectedCards(selection);
+                signalWin();
+                repaint();
+            }
+            else {
+                turns++;
+                sum = board.findTripSum(selection);
+                int turnUp = (int) (Math.random()) * selection.size();
+                board.cardAt(selection.get(turnUp)).setFace(true);
+                repaint();
+            }
             
         } else if (e.getSource().equals(restartButton)) {
             board.newGame();
-            getRootPane().setDefaultButton(replaceButton);
+            turns = 0;
+            getRootPane().setDefaultButton(selectButton);
             winMsg.setVisible(false);
             lossMsg.setVisible(false);
             if (!board.anotherPlayIsPossible()) {
@@ -373,32 +392,32 @@ public class CardGameGUI extends JFrame implements ActionListener {
             signalError();
         }
 
-		/**
-		 * Ignore a mouse exited event.
-		 * @param e the mouse event.
-		 */
-		public void mouseExited(MouseEvent e) {
-		}
+        /**
+         * Ignore a mouse exited event.
+         * @param e the mouse event.
+         */
+        public void mouseExited(MouseEvent e) {
+        }
 
-		/**
-		 * Ignore a mouse released event.
-		 * @param e the mouse event.
-		 */
-		public void mouseReleased(MouseEvent e) {
-		}
+        /**
+         * Ignore a mouse released event.
+         * @param e the mouse event.
+         */
+        public void mouseReleased(MouseEvent e) {
+        }
 
-		/**
-		 * Ignore a mouse entered event.
-		 * @param e the mouse event.
-		 */
-		public void mouseEntered(MouseEvent e) {
-		}
+        /**
+         * Ignore a mouse entered event.
+         * @param e the mouse event.
+         */
+        public void mouseEntered(MouseEvent e) {
+        }
 
-		/**
-		 * Ignore a mouse pressed event.
-		 * @param e the mouse event.
-		 */
-		public void mousePressed(MouseEvent e) {
-		}
-	}
+        /**
+         * Ignore a mouse pressed event.
+         * @param e the mouse event.
+         */
+        public void mousePressed(MouseEvent e) {
+        }
+    }
 }
